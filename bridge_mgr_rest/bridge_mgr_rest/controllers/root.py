@@ -1,14 +1,14 @@
-from pecan import expose, redirect
+from pecan import expose, response
 
 class RootController(object):
-    @expose(method='POST')
+    @expose()
     def create_bridge(self, bridge_name):
         return 'create bridge %s' % bridge_name
 
-    @expose(method='POST')
+    @expose()
     def remove_bridge(self, bridge_name):
         return 'remove bridge %s' % bridge_name
 
-    @expose(method='GET')
+    @expose('json')
     def get_bridges(self):
-        return 'get bridges'
+        return {'bridge_name' : 'wlan0'}
