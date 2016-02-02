@@ -2,30 +2,52 @@ import argparse
 import requests
 import ConfigParser
 
+rest_server_cfg_section = 'rest_server'
+rabbit_server_cfg_section = 'rabbit_server'
+
 def create_bridge(bridge_name):
-    response = requests.post(get_rest_server_url('create_bridge'), data={'bridge_name':bridge_name})
+    url = get_rest_server_url('create_bridge')
+
+    data = get_server_host_port(rabbit_server_cfg_section)
+    data['bridge_name'] = bridge_name
+
+    response = requests.post(url, data=data)
+
     print response.text
 
 def remove_bridge(bridge_name):
-    response = requests.post(get_rest_server_url('remove_bridge'), data={'bridge_name':bridge_name})
+    url = get_rest_server_url('remove_bridge')
+
+    data = get_server_host_port(rabbit_server_cfg_section)
+    data['bridge_name'] = bridge_name
+
+    response = requests.post(url, data=data)
+
     print response.text
 
 def get_bridges():
-    response = requests.get(get_rest_server_url('get_bridges.json'))
+    url = get_rest_server_url('get_bridges.json')
+    data = get_server_host_port(rabbit_server_cfg_section)
+
+    response = requests.get(url, data)
+
     print response.text
 
 def get_rest_server_url(request_name):
+    host_port = get_server_host_port(rest_server_cfg_section)
+
+    request = 'http://{0}:{1}/{2}'.format(host_port['host'], host_port['port'], request_name)
+
+    return request
+
+def get_server_host_port(section_name):
     config = ConfigParser.RawConfigParser()
     config.read('config.cfg')
 
-    rest_server_section = 'rest_server'
+    host = config.get(section_name, 'host')
+    port = config.get(section_name, 'port')
 
-    rest_server_host = config.get(rest_server_section, 'host')
-    rest_server_port = config.get(rest_server_section, 'port')
-
-    request = 'http://{0}:{1}/{2}'.format(rest_server_host, rest_server_port, request_name)
-
-    return request
+    return {'host':host, 'port':port}
 
 def parse_cmd_line():
     parser = argparse.ArgumentParser(description='process command line')
@@ -43,5 +65,5 @@ def parse_cmd_line():
     elif args.get_bridges:
         get_bridges()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     parse_cmd_line();
