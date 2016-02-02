@@ -26,10 +26,10 @@ def remove_bridge(bridge_name):
     print response.text
 
 def get_bridges():
-    url = get_rest_server_url('get_bridges.json')
+    url = get_rest_server_url('get_bridges')
     data = get_server_host_port(rabbit_server_cfg_section)
 
-    response = requests.get(url, data)
+    response = requests.post(url, data)
 
     print response.text
 
