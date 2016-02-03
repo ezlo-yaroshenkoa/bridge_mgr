@@ -8,6 +8,7 @@ setup(
     author_email='oleksii.iaroshenko@gmail.com',
     install_requires=[
         "pecan",
+        "pika",
     ],
     test_suite='bridge_mgr_rest',
     zip_safe=False,

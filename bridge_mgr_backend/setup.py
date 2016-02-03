@@ -1,14 +1,15 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
-setup(name='bridge_mgr_backend',
-      version='0.1',
-      description='bridge manager backend',
-      url='https://github.com/oleksii-iaroshenko/bridge_mgr',
-      author='okeksii iaroshenko',
-      author_email='oleksii.iaroshenko@gmail.com',
-      license='',
-      packages=['bridge_mgr_backend'],
-      install_requires=[
-          '',
-      ],
-      zip_safe=False)
+setup(
+    name='bridge_mgr_cli',
+    version='0.1',
+    description='bridge manager backend',
+    author='oleksii.iaroshenko',
+    author_email='oleksii.iaroshenko@gmail.com',
+    install_requires=[
+        "pika",
+    ],
+    zip_safe=False,
+    include_package_data=True,
+    packages=find_packages()
+)
