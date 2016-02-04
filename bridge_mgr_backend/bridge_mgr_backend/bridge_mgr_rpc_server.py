@@ -1,5 +1,6 @@
 import pika
 import ConfigParser
+from pyroute2.iproute import IPRoute
 
 class BridgeManagerRpcServer(object):
     def __init__(self):
@@ -45,12 +46,19 @@ class BridgeManagerRpcServer(object):
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
     def create_bridge(self, bridge_name):
-        #to do
-        return True
+        try:
+            ip = IPRoute()
+            return ip.link_create(ifname=bridge_name, kind='bridge')
+        finally:
+            return False
 
     def delete_bridge(self, bridge_name):
-        #to do
-        return True
+        try:
+            ip = IPRoute()
+            idx = ip.link_lookup(ifname=bridge_name)[0]
+            return ip.link_remove(idx)
+        finally:
+            return False
 
     def start(self):
         self.channel_.start_consuming()

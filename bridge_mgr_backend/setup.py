@@ -8,6 +8,7 @@ setup(
     author_email='oleksii.iaroshenko@gmail.com',
     install_requires=[
         "pika",
+        "pyroute2",
     ],
     zip_safe=False,
     include_package_data=True,

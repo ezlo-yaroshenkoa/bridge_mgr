@@ -7,7 +7,11 @@ class RootController(object):
         self.bridges_db_ = bridges_db()
         self.bridge_mgr_rpc_client_ = BridgeManagerRpcClient()
 
-    @expose()
+    @expose('json')
+    def bridges(self):
+        return self.bridges_db_.get_bridges()
+
+    @bridges.when(method='POST')
     def create_bridge(self, bridge_name):
         data = "{'action':1,'bridge_name':'{0}'}".format(bridge_name)
 
@@ -18,7 +22,7 @@ class RootController(object):
 
         return 'create bridge %s' % bridge_name
 
-    @expose()
+    @bridges.when(method='DELETE')
     def remove_bridge(self, bridge_name):
         data = "{'action':0,'bridge_name':'{0}'}".format(bridge_name)
 
@@ -28,7 +32,3 @@ class RootController(object):
             abort(500)
 
         return 'remove bridge %s' % bridge_name
-
-    @expose('json')
-    def get_bridges(self):
-        return self.bridges_db_.get_bridges()
