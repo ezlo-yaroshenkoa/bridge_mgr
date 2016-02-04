@@ -10,6 +10,8 @@ bridge_mgr_rest.egg-info/not-zip-safe
 bridge_mgr_rest.egg-info/requires.txt
 bridge_mgr_rest.egg-info/top_level.txt
 bridge_mgr_rest/controllers/__init__.py
+bridge_mgr_rest/controllers/bridge_mgr_rpc_client.py
+bridge_mgr_rest/controllers/bridges_db.py
 bridge_mgr_rest/controllers/root.py
 bridge_mgr_rest/model/__init__.py
 bridge_mgr_rest/tests/__init__.py

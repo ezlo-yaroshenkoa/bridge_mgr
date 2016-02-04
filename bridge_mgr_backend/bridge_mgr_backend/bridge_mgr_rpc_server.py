@@ -1,6 +1,7 @@
 import pika
 import ConfigParser
 from pyroute2.iproute import IPRoute
+import json
 
 class BridgeManagerRpcServer(object):
     def __init__(self):
@@ -11,7 +12,7 @@ class BridgeManagerRpcServer(object):
         section_name = 'rabbitmq_server'
 
         host = config.get(section_name, 'host')
-        port = config.get(section_name, 'port')
+        port = int(config.get(section_name, 'port'))
         user_name = config.get(section_name, 'user_name')
         password = config.get(section_name, 'password')
         queue_name = config.get(section_name, 'queue_name')
@@ -30,8 +31,10 @@ class BridgeManagerRpcServer(object):
     def on_request(self, channel, method, props, body):
         response = False
 
-        action = body['action']
-        bridge_name = body['bridge_name']
+        obj = json.loads(body)
+
+        action = obj['action']
+        bridge_name = obj['bridge_name']
 
         if action == 0:
             response = self.create_bridge(bridge_name)

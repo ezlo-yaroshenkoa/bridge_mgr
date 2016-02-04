@@ -3,7 +3,7 @@ import uuid
 import ConfigParser
 
 class BridgeManagerRpcClient(object):
-    def __init__(self, host, port, user_name, password, queue_name):
+    def __init__(self):
         config = ConfigParser.RawConfigParser()
 
         config.read('config.cfg')
@@ -11,7 +11,7 @@ class BridgeManagerRpcClient(object):
         section_name = 'rabbitmq_server'
 
         host = config.get(section_name, 'host')
-        port = config.get(section_name, 'port')
+        port = int(config.get(section_name, 'port'))
         user_name = config.get(section_name, 'user_name')
         password = config.get(section_name, 'password')
         queue_name = config.get(section_name, 'queue_name')

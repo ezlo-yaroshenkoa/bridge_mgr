@@ -1,7 +1,6 @@
 import argparse
 import requests
 import ConfigParser
-import exceptions
 
 def create_bridge(bridge_name):
     url = get_rest_server_url('bridges/{0}').format(bridge_name)
