@@ -1,27 +1,34 @@
 import argparse
 import requests
 import ConfigParser
+import exceptions
 
 def create_bridge(bridge_name):
     url = get_rest_server_url('bridges/{0}').format(bridge_name)
 
-    response = requests.post(url)
-
-    print response.text
+    try:
+        response = requests.post(url)
+        print response.text
+    except requests.RequestException as e:
+        print e
 
 def remove_bridge(bridge_name):
     url = get_rest_server_url('bridges/{0}'.format(bridge_name))
 
-    response = requests.delete(url)
-
-    print response.text
+    try:
+        response = requests.delete(url)
+        print response.text
+    except requests.RequestException as e:
+        print e
 
 def get_bridges():
     url = get_rest_server_url('bridges')
 
-    response = requests.get(url)
-
-    print response.text
+    try:
+        response = requests.get(url)
+        print response.text
+    except requests.RequestException as e:
+        print e
 
 def get_rest_server_url(request_name):
     config = ConfigParser.RawConfigParser()
