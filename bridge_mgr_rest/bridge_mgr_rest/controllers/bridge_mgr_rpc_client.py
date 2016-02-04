@@ -1,8 +1,21 @@
 import pika
 import uuid
+import ConfigParser
 
 class BridgeManagerRpcClient(object):
     def __init__(self, host, port, user_name, password, queue_name):
+        config = ConfigParser.RawConfigParser()
+
+        config.read('config.cfg')
+
+        section_name = 'rabbitmq_server'
+
+        host = config.get(section_name, 'host')
+        port = config.get(section_name, 'port')
+        user_name = config.get(section_name, 'user_name')
+        password = config.get(section_name, 'password')
+        queue_name = config.get(section_name, 'queue_name')
+
         credentials = pika.PlainCredentials(user_name, password)
 
         self.queue_name_ = queue_name
@@ -21,7 +34,7 @@ class BridgeManagerRpcClient(object):
         if self.request_id_ == props.correlation_id:
             self.response_ = body
 
-    def send_data(self, action_data):
+    def send_data(self, data):
         self.response_ = None
         self.request_id_ = str(uuid.uuid4())
         self.channel.basic_publish(exchange='',
@@ -30,7 +43,7 @@ class BridgeManagerRpcClient(object):
                                            reply_to=self.callback_queue,
                                            correlation_id=self.request_id_,
                                    ),
-                                   body=action_data)
+                                   body=data)
 
         while self.response_ is None:
             self.connection.process_data_events()
