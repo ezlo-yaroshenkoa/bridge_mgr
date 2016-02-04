@@ -29,17 +29,24 @@ class BridgeManagerRpcServer(object):
         self.channel_.basic_consume(self.on_request, queue=queue_name)
 
     def on_request(self, channel, method, props, body):
-        response = False
+        response = 0
 
         obj = json.loads(body)
 
         action = obj['action']
         bridge_name = obj['bridge_name']
 
+        print 'action={0}'.format(action)
+        print 'bridge_name={0}'.format(bridge_name)
+
         if action == 0:
+            print 'removing bridge'
             response = self.create_bridge(bridge_name)
         elif action == 1:
+            print 'creating bridge'
             response = self.delete_bridge(bridge_name)
+
+        print 'response={0}'.format(response)
 
         channel.basic_publish(exchange='',
                               routing_key=props.reply_to,
@@ -52,17 +59,18 @@ class BridgeManagerRpcServer(object):
         try:
             ip = IPRoute()
             ip.link_create(ifname=bridge_name, kind='bridge')
-            return True
+            return 1
         finally:
-            return False
+            return 0
 
     def delete_bridge(self, bridge_name):
         try:
             ip = IPRoute()
             idx = ip.link_lookup(ifname=bridge_name)[0]
-            return ip.link_remove(idx)
+            ip.link_remove(idx)
+            return 1
         finally:
-            return False
+            return 0
 
     def start(self):
         self.channel_.start_consuming()

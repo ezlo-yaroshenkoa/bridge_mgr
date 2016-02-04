@@ -19,6 +19,9 @@ class RootController(object):
         data['bridge_name'] = bridge_name
         json_data = json.dumps(data)
 
+        result = self.bridge_mgr_rpc_client_.send_data(json_data)
+        print 'create_bridge result={0}'.format(result)
+
         if self.bridge_mgr_rpc_client_.send_data(json_data):
             self.bridges_db_.add_bridge(bridge_name)
         else:
