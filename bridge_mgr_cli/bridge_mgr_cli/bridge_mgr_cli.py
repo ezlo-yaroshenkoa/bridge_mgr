@@ -3,21 +3,21 @@ import requests
 import ConfigParser
 
 def create_bridge(bridge_name):
-    url = get_rest_server_url('create_bridge')
+    url = get_rest_server_url('bridges/{0}').format(bridge_name)
 
-    response = requests.post(url, data={'bridge_name':bridge_name})
+    response = requests.post(url)
 
     print response.text
 
 def remove_bridge(bridge_name):
-    url = get_rest_server_url('remove_bridge')
+    url = get_rest_server_url('bridges/{0}'.format(bridge_name))
 
-    response = requests.post(url, data={'bridge_name':bridge_name})
+    response = requests.post(url)
 
     print response.text
 
 def get_bridges():
-    url = get_rest_server_url('get_bridges')
+    url = get_rest_server_url('bridges')
 
     response = requests.post(url)
 
