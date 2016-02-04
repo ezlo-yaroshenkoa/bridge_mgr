@@ -19,7 +19,6 @@ class bridges_db(object):
     def get_bridges(self):
         cursor = self.connection_.execute('select bridge_name from bridges')
         result = cursor.fetchall()
-
         data = []
 
         for item in result:

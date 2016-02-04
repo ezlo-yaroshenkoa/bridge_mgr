@@ -8,7 +8,7 @@ class RootController(object):
         self.bridges_db_ = bridges_db()
         self.bridge_mgr_rpc_client_ = BridgeManagerRpcClient()
 
-    @expose(generic=True)
+    @expose(generic=True, template='json')
     def bridges(self):
         return self.bridges_db_.get_bridges()
 

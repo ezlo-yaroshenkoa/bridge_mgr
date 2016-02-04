@@ -1,0 +1,9 @@
+setup.py
+bridge_mgr_cli/__init__.py
+bridge_mgr_cli/bridge_mgr_cli.py
+bridge_mgr_cli.egg-info/PKG-INFO
+bridge_mgr_cli.egg-info/SOURCES.txt
+bridge_mgr_cli.egg-info/dependency_links.txt
+bridge_mgr_cli.egg-info/not-zip-safe
+bridge_mgr_cli.egg-info/requires.txt
+bridge_mgr_cli.egg-info/top_level.txt

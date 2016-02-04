@@ -44,14 +44,15 @@ class BridgeManagerRpcServer(object):
         channel.basic_publish(exchange='',
                               routing_key=props.reply_to,
                               properties=pika.BasicProperties(correlation_id=props.correlation_id),
-                              body=response)
+                              body=str(response))
 
         channel.basic_ack(delivery_tag=method.delivery_tag)
 
     def create_bridge(self, bridge_name):
         try:
             ip = IPRoute()
-            return ip.link_create(ifname=bridge_name, kind='bridge')
+            ip.link_create(ifname=bridge_name, kind='bridge')
+            return True
         finally:
             return False
 

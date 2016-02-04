@@ -48,4 +48,4 @@ class BridgeManagerRpcClient(object):
         while self.response_ is None:
             self.connection.process_data_events()
 
-        return self.response_
+        return bool(self.response_)
