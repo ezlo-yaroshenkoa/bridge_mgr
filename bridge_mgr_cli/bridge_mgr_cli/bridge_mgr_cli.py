@@ -12,14 +12,14 @@ def create_bridge(bridge_name):
 def remove_bridge(bridge_name):
     url = get_rest_server_url('bridges/{0}'.format(bridge_name))
 
-    response = requests.post(url)
+    response = requests.delete(url)
 
     print response.text
 
 def get_bridges():
     url = get_rest_server_url('bridges')
 
-    response = requests.post(url)
+    response = requests.get(url)
 
     print response.text
 
