@@ -20,7 +20,7 @@ class RootController(object):
         json_data = json.dumps(data)
 
         result = self.bridge_mgr_rpc_client_.send_data(json_data)
-        print 'create_bridge result={}'.format(result)
+        print 'create bridge result={}'.format(result)
 
         if result:
             self.bridges_db_.add_bridge(bridge_name)
@@ -36,7 +36,10 @@ class RootController(object):
         data['bridge_name'] = bridge_name
         json_data = json.dumps(data)
 
-        if self.bridge_mgr_rpc_client_.send_data(json_data):
+        result = self.bridge_mgr_rpc_client_.send_data(json_data)
+        print 'remove bridge result={}'.format(result)
+
+        if result:
             self.bridges_db_.del_bridge(bridge_name)
         else:
             abort(500)
