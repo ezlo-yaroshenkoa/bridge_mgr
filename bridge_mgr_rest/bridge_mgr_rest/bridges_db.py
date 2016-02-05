@@ -1,27 +1,40 @@
-import sqlite3
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+Base = declarative_base()
+
+class Bridge(Base):
+    __tablename__ = 'bridge'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(256), unique=True)
 
 class bridges_db(object):
     def __init__(self):
-        self.connection_ = sqlite3.connect('bridges.db')
-        self.connection_.execute('create table if not exists bridges(bridge_name text primary key)')
-
-    def __del__(self):
-        self.connection_.close()
+        self.engine_ = create_engine('sqlite:///bridges.db')
+        self.session_maker_ = sessionmaker()
+        self.session_maker_.configure(bind=self.engine_)
+        Base.metadata.create_all(self.engine_)
 
     def add_bridge(self, bridge_name):
-        self.connection_.execute("insert or ignore into bridges(bridge_name) values('{}')".format(bridge_name))
-        self.connection_.commit()
+        session = self.session_maker_()
+        if not session.query(session.query(Bridge).filter_by(name=bridge_name).exists()).scalar():
+            bridge = Bridge(name=bridge_name)
+            session.add(bridge)
+            session.commit()
 
     def del_bridge(self, bridge_name):
-        self.connection_.execute("delete from bridges where bridge_name='{}'".format(bridge_name))
-        self.connection_.commit()
+        session = self.session_maker_()
+        session.query(Bridge).filter_by(name=bridge_name).delete(synchronize_session=False)
+        session.commit()
 
     def get_bridges(self):
-        cursor = self.connection_.execute('select bridge_name from bridges')
-        result = cursor.fetchall()
-        data = []
+        result = []
 
-        for item in result:
-            data.append(item[0])
+        session = self.session_maker_()
+        bridges =  session.query(Bridge).all()
+        for bridge in bridges:
+            result.append(bridge.name)
 
-        return data
+        return result
