@@ -9,11 +9,11 @@ class bridges_db(object):
         self.connection_.close()
 
     def add_bridge(self, bridge_name):
-        self.connection_.execute("insert or ignore into bridges(bridge_name) values('{0}')".format(bridge_name))
+        self.connection_.execute("insert or ignore into bridges(bridge_name) values('{}')".format(bridge_name))
         self.connection_.commit()
 
     def del_bridge(self, bridge_name):
-        self.connection_.execute("delete from bridges where bridge_name='{0}'".format(bridge_name))
+        self.connection_.execute("delete from bridges where bridge_name='{}'".format(bridge_name))
         self.connection_.commit()
 
     def get_bridges(self):

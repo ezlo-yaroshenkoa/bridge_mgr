@@ -36,17 +36,14 @@ class BridgeManagerRpcServer(object):
         action = obj['action']
         bridge_name = obj['bridge_name']
 
-        print 'action={0}'.format(action)
-        print 'bridge_name={0}'.format(bridge_name)
+        print 'on request. action={}, bridge_name={}'.format(action, bridge_name)
 
         if action == 0:
-            print 'removing bridge'
             response = self.create_bridge(bridge_name)
         elif action == 1:
-            print 'creating bridge'
             response = self.delete_bridge(bridge_name)
 
-        print 'response={0}'.format(response)
+        print 'response={}'.format(response)
 
         channel.basic_publish(exchange='',
                               routing_key=props.reply_to,

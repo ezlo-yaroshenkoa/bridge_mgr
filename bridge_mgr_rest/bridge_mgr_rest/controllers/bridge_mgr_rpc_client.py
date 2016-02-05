@@ -32,7 +32,7 @@ class BridgeManagerRpcClient(object):
 
     def on_response(self, ch, method, props, body):
         if self.request_id_ == props.correlation_id:
-            print 'body={0}'.format(body)
+            print 'on response. body={}'.format(body)
             self.response_ = body
 
     def send_data(self, data):
@@ -49,5 +49,6 @@ class BridgeManagerRpcClient(object):
         while self.response_ is None:
             self.connection.process_data_events()
 
-        print 'response from send data={0}'.format(self.response_)
+        print 'response from send data={}'.format(self.response_)
+
         return int(self.response_)

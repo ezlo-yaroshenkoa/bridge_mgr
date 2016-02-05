@@ -3,7 +3,7 @@ import requests
 import ConfigParser
 
 def create_bridge(bridge_name):
-    url = get_rest_server_url('bridges/{0}').format(bridge_name)
+    url = get_rest_server_url('bridges/{}').format(bridge_name)
 
     try:
         response = requests.post(url)
@@ -12,7 +12,7 @@ def create_bridge(bridge_name):
         print e
 
 def remove_bridge(bridge_name):
-    url = get_rest_server_url('bridges/{0}'.format(bridge_name))
+    url = get_rest_server_url('bridges/{}'.format(bridge_name))
 
     try:
         response = requests.delete(url)
@@ -39,7 +39,7 @@ def get_rest_server_url(request_name):
     host = config.get(section_name, 'host')
     port = config.get(section_name, 'port')
 
-    request = 'http://{0}:{1}/{2}'.format(host, port, request_name)
+    request = 'http://{}:{}/{}'.format(host, port, request_name)
 
     return request
 
