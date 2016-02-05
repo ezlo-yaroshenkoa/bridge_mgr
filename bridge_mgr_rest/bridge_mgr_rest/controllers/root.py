@@ -1,12 +1,12 @@
 from pecan import expose, abort
-from bridges_db import bridges_db
-from bridge_mgr_rpc_client import BridgeManagerRpcClient
+from bridge_mgr_rest.bridges_db import bridges_db
+from bridge_mgr_rest.rpc_client import RpcClient
 import json
 
 class RootController(object):
     def __init__(self):
         self.bridges_db_ = bridges_db()
-        self.bridge_mgr_rpc_client_ = BridgeManagerRpcClient()
+        self.bridge_mgr_rpc_client_ = RpcClient()
 
     @expose(generic=True, template='json')
     def bridges(self):

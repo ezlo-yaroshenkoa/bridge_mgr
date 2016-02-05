@@ -2,7 +2,7 @@ import pika
 import uuid
 import ConfigParser
 
-class BridgeManagerRpcClient(object):
+class RpcClient(object):
     def __init__(self):
         config = ConfigParser.RawConfigParser()
 

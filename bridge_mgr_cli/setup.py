@@ -15,5 +15,10 @@ setup(
     install_requires=install_requires_pip,
     zip_safe=False,
     include_package_data=True,
-    packages=find_packages()
+    packages=find_packages(),
+    entry_points={
+        'console_scripts': [
+            'bridge_mgr_cli = bridge_mgr_cli:parse_cmd_line',
+        ]
+    }
 )

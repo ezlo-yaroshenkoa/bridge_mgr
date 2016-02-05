@@ -3,7 +3,7 @@ import ConfigParser
 from pyroute2.iproute import IPRoute
 import json
 
-class BridgeManagerRpcServer(object):
+class RpcServer(object):
     def __init__(self):
         config = ConfigParser.RawConfigParser()
 
